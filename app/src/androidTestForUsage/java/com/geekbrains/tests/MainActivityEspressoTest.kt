@@ -1,11 +1,9 @@
 package com.geekbrains.tests
 
-import android.content.Context
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -26,13 +24,11 @@ import org.junit.runner.RunWith
 class MainActivityEspressoTest {
 
     private lateinit var scenario: ActivityScenario<MainActivity>
-    //private lateinit var context: Context
 
 
     @Before
     fun setup() {
         scenario = ActivityScenario.launch(MainActivity::class.java)
-       // context = ApplicationProvider.getApplicationContext()
     }
 
     @Test
@@ -82,13 +78,8 @@ class MainActivityEspressoTest {
         onView(withId(R.id.searchEditText)).perform(replaceText("algol"), closeSoftKeyboard())
         onView(withId(R.id.searchEditText)).perform(pressImeActionButton())
 
-        
-        if (BuildConfig.TYPE == MainActivity.FAKE) {
-            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 42")))
-        } else {
-            onView(isRoot()).perform(delay())
-            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2416")))
-        }
+        onView(isRoot()).perform(delay())
+        onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2416")))
     }
 
     private fun delay(): ViewAction {
